@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>Home.qml</file>
+        <file>HomeForm.ui.qml</file>
+        <file>Download.qml</file>
+        <file>DownloadForm.ui.qml</file>
+        <file>qtquickcontrols2.conf</file>
+        <file alias="kittenbutterfly">kittenbutterfly.png</file>
+        <file>logo.png</file>
+    </qresource>
+</RCC>
