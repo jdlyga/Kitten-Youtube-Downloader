@@ -1,6 +1,7 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.3
+import Qt.labs.platform 1.0
 
 Item {
     width: 1280
@@ -65,16 +66,43 @@ Item {
         font.family: "Tahoma"
         autoExclusive: false
         autoRepeat: false
+        onPressed: {
+            urlInput.clear()
+            urlInput.paste()
+        }
     }
 
     ComboBox {
-        id: comboBox
+        id: outputFormatBox
         x: 299
         y: 329
+        width: 171
+        height: 48
+        model: ListModel {
+            id: outputFormats
+            ListElement {
+                text: "MP4 Video"
+            }
+            ListElement {
+                text: "FLV Video"
+            }
+            ListElement {
+                text: "WebM Video"
+            }
+            ListElement {
+                text: "MKV Video"
+            }
+            ListElement {
+                text: "AVI Video"
+            }
+            ListElement {
+                text: "MP3 Audio"
+            }
+        }
     }
 
     Label {
-        id: label
+        id: convertToLabel
         x: 184
         y: 340
         width: 94
@@ -85,7 +113,7 @@ Item {
     }
 
     Label {
-        id: label1
+        id: saveToLabel
         x: 184
         y: 413
         width: 94
@@ -96,21 +124,39 @@ Item {
     }
 
     Button {
-        id: button1
-        x: 831
-        y: 389
-        width: 75
-        height: 75
+        id: browseButton
+        x: 820
+        y: 407
+        width: 105
+        height: 42
         text: "Browse"
+        font.capitalization: Font.Capitalize
+        font.family: "Tahoma"
+        onPressed: folderDialog.open()
+    }
+
+    FolderDialog {
+        id: folderDialog
+        currentFolder: viewer.folder
+        folder: StandardPaths.standardLocations(
+                    StandardPaths.DesktopLocation)[0]
+        onAccepted:
+        {
+            var path = folder.toString();
+            // remove prefixed "file:///"
+            path = path.replace(/^(file:\/{2})/,"");
+            // unescape html codes like '%23' for '#'
+            path = decodeURIComponent(path);
+            pathInput.text = path;
+        }
     }
 
     TextInput {
-        id: urlInput1
+        id: pathInput
         x: 299
         y: 412
         width: 490
         height: 31
-        text: qsTr("http://www.youtube.com/")
         font.weight: Font.Normal
         font.family: "Verdana"
         antialiasing: true
